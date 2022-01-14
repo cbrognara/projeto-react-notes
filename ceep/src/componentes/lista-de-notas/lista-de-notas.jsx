@@ -6,9 +6,9 @@ import './style.css'
   render() {
     return ( 
       <ul className='lista-notas'>
-        {Array.of('trabalho', 'trabalho','estudos').map(categoria => {
-          return (<li className='lista-notas_item'>
-           <CardNota/>
+        {this.props.notas.map((nota, index) => {
+          return (<li className='lista-notas_item' key={index}>
+           <CardNota titulo={nota.titulo} texto={nota.texto} apagarNota={this.props.apagarNota} indice={index}/>
           </li>)
         })}
       </ul>
