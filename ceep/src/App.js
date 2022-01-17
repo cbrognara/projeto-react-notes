@@ -1,18 +1,20 @@
-// import './App.css'
+import './App.css'
 import React, { Component } from 'react'
-import ListaDeNotas from './componentes/lista-de-notas'
-import FormularioCadastro from './componentes/formulario-cadastro'
-import './assets/App.css'
-import './assets/index.css'
+
+import ListaDeNotas from './components/ListaDeNotas'
+import Formulario from './components/Formulario'
+import Categorias from './components/Categorias'
 
 class App extends Component {
   constructor() {
     super()
     this.state = {
-      notas: []
+      notas: [],
+      categorias: []
     }
   }
-  criarNota(titulo, texto) {
+
+  handleSubmit(titulo, texto) {
     const novaNota = { titulo, texto }
     const novoArrayNotas = [...this.state.notas, novaNota]
     const novoEstado = {
@@ -21,20 +23,35 @@ class App extends Component {
     this.setState(novoEstado)
   }
 
-  deletarNota() {
+  deletarNota(index) {
     let arrayNotas = this.state.notas
-    arrayNotas.splice(0, 1)
+    arrayNotas.splice(index, 1)
     this.setState({ notas: arrayNotas })
+  }
+
+  adicionarCategoria(nomeCategoria) {
+    const novoArrayCategorias = [...this.state.categorias, nomeCategoria]
+    const novoEstado = { ...this.state, categorias: novoArrayCategorias }
+    this.setState(novoEstado)
   }
 
   render() {
     return (
-      <section className="conteudo">
-        <FormularioCadastro criarNota={this.criarNota.bind(this)} />
-        <ListaDeNotas
-          notas={this.state.notas}
-          apagarNota={this.deletarNota.bind(this)}
+      <section>
+        <Formulario
+          handleSubmit={this.handleSubmit.bind(this)}
+          categorias={this.state.categorias}
         />
+        <main>
+          <Categorias
+            adicionarCategoria={this.adicionarCategoria.bind(this)}
+            categorias={this.state.categorias}
+          />
+          <ListaDeNotas
+            notas={this.state.notas}
+            apagarNota={this.deletarNota.bind(this)}
+          />
+        </main>
       </section>
     )
   }
